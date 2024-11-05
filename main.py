@@ -1,8 +1,8 @@
-from fastapi import FastAPI, Request, Form, UploadFile, File
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
+from enviar_form import router as form_router  # Importa o roteador do enviar_form
 
 app = FastAPI()
 
@@ -12,15 +12,8 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Configura os diretórios de templates
 templates = Jinja2Templates(directory="pages")
 
-class FormData(BaseModel):
-    nome: str
-    idade: int
-    endereco: str
-    email: str
-    escolaridade: str
-    concordo: bool
-    trabalho: str
-    mensagem: str
+# Inclui as rotas do enviar_form
+app.include_router(form_router)  # Inclui as rotas do roteador
 
 # Rota para a página inicial (index.html)
 @app.get("/", response_class=HTMLResponse)
