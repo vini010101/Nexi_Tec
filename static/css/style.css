@@ -1,0 +1,119 @@
+.carousel-inner img {
+    width: 30%; /* Ajusta a largura para preencher o contêiner */
+    height: auto; /* Mantém a proporção da imagem */
+    max-height: 510px; /* Define a altura máxima da imagem */
+    object-fit: cover; /* Cobre o espaço do contêiner, cortando partes da imagem, se necessário */
+}
+
+/* Estilo para o logo */
+.logo-img {
+    height: 110px;
+    padding: 5px;
+    border-radius: 1px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.text-dark {
+    color: #343A40 !important; /* Cor cinza escuro */
+}
+
+.font-weight-bold {
+    font-weight: bold !important; /* Define o peso da fonte para deixá-la mais forte */
+}
+
+/* Estilo para o link "Formulário para cadastro" */
+.nav-link-form {
+    color: #6e7175; /* Azul Elétrico como cor padrão */
+}
+
+.nav-link-form.active {
+    color: #6F42C1; /* Roxo vibrante quando ativo */
+}
+
+/* Estilo para o label do input de arquivo */
+.custom-file-label {
+    background-color: #6b6767cb; /* Cinza */
+    color: rgb(0, 0, 0); /* Texto preto */
+    padding: 10px 20px; /* Espaçamento interno */
+    border-radius: 5px; /* Cantos arredondados */
+    cursor: pointer; /* Cursor ao passar o mouse */
+    text-align: center;
+    display: inline-block; /* Exibir como botão */
+}
+
+.custom-file-label:hover {
+    background-color: #5a5454; /* Cinza mais escuro no hover */
+}
+
+.custom-file-label:active {
+    background-color: #484b4b; /* Cinza ainda mais escuro ao clicar */
+}
+
+/* Escondendo o input de arquivo real */
+#imagens {
+    display: none;
+}
+
+/* Estilo para botões */
+.custom-grey-btn {
+    background-color: #6b6767cb; /* cinza */
+    color: rgb(0, 0, 0); /* Texto preto */
+}
+
+/* Estilo para o footer */
+.footer-yellow {
+    background-color: #a2a8af !important; /* Cinza escuro */
+    color: white !important; /* Texto branco */
+    opacity: 1; /* Garante que o fundo não fique transparente */
+}
+
+/* Estilo para a barra de navegação */
+.navbar-yellow {
+    background-color: #ffffff !important; /* Fundo branco */
+    color: rgb(240, 231, 231) !important; /* Texto branco */
+    text-shadow: 2px 2px 4px #000000fa; /* Sombra suave no texto */
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* Sombra para melhorar a legibilidade em texto */
+.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.438); /* Sombra no texto */
+}
+
+/* Estilo para os ícones sociais no footer */
+.social a {
+    color: inherit; /* Mantém a cor original */
+    text-decoration: none; /* Remove o sublinhado */
+}
+
+.social a:hover {
+    color: #377545; /* Verde menta no hover */
+}
+
+/* Estilos adicionais */
+.bloco {
+    background-color: transparent; /* Fundo transparente */
+    height: 50vh; /* Altura do bloco */
+}
+
+.bloco img {
+    min-width: 800px; /* Largura mínima da imagem */
+}
+
+.w-200 {
+    width: 200px; /* Largura de 200px */
+}
+
+.w-500 {
+    width: 500px; /* Largura de 500px */
+}
+
+.active {
+    border-bottom: 1px solid #FFFFFF; /* Borda inferior branca no estado ativo */
+}
+
+.altura {
+    height: 300px; /* Altura definida */
+    overflow: scroll; /* Rolagem quando necessário */
+}
