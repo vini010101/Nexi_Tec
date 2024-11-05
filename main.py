@@ -31,28 +31,3 @@ def read_index(request: Request):
 @app.get("/orcamento.html", response_class=HTMLResponse)
 def read_form(request: Request):
     return templates.TemplateResponse("orcamento.html", {"request": request})
-
-@app.post("/submit")
-async def submit_form(
-    nome: str = Form(...),
-    idade: int = Form(...),
-    endereco: str = Form(...),
-    email: str = Form(...),
-    escolaridade: str = Form(...),
-    concordo: bool = Form(...),
-    trabalho: str = Form(...),
-    mensagem: str = Form(...),
-    curriculo: UploadFile = File(...)
-
-    
-):
-    return {
-        "nome": nome,
-        "idade": idade,
-        "endereco": endereco,
-        "email": email,
-        "escolaridade": escolaridade,
-        "concordo": concordo,
-        "trabalho": trabalho,
-        "mensagem": mensagem
-    }
