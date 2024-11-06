@@ -35,7 +35,7 @@ async def enviar_orcamento(
     mensagem: str = Form(...),
     fotos: list[UploadFile] = File(None)
 ):
-    # Salva os arquivos temporariamente se houver
+    # Salva os arquivos temporariamente se ouver
     fotos_salvas = []
     if fotos:
         for foto in fotos:
