@@ -1,37 +1,58 @@
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
-from fastapi import APIRouter, Form, UploadFile, File
+# enviar_form.py
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 from dotenv import load_dotenv
 import os
 
-load_dotenv()  # Carregar variáveis de ambiente do .env
+# Carrega as variáveis de ambiente do arquivo .env
+load_dotenv()
 
-router = APIRouter()  # Definindo o roteador
+def enviar_email(nome, fone, fone2, email, mensagem, fotos=None):
+    # Configurações do servidor SMTP
+    server_smtp = "smtp.gmail.com"
+    port = 587
+    sender_email = os.getenv('EMAIL_REMETENTE')
+    password = os.getenv('EMAIL_SENHA_APP')
+    recive_email = os.getenv("EMAIL_DESTINATARIO")
+    subject = "Novo orçamento"
+    
+    # Configurando o corpo do e-mail
+    body = f"""
+    <h1>Orçamento Solicitado</h1>
+    <p><strong>Nome:</strong> {nome}</p>
+    <p><strong>Telefone 1:</strong> {fone}</p>
+    <p><strong>Telefone 2:</strong> {fone2}</p>
+    <p><strong>Email:</strong> {email}</p>
+    <p><strong>Mensagem:</strong> {mensagem}</p>
+    """
 
-@router.post("/submit")
-async def submit_form(
-    nome: str = Form(...),
-    fone: str = Form(...),
-    fone2: str = Form(None),
-    email: str = Form(...),
-    mensagem: str = Form(...),
-    fotos: UploadFile = File(None)
-):
-    message = Mail(
-        from_email='seu_email@dominio.com',
-        to_emails='seu_email@dominio.com',  # O mesmo e-mail para onde você deseja enviar
-        subject=f'Novo Orçamento de {nome}',
-        plain_text_content=f"""
-        Nome: {nome}
-        Telefone 1: {fone}
-        Telefone 2: {fone2}
-        E-mail: {email}
-        Mensagem: {mensagem}
-        """,
-    )
+    # Cria o objeto de mensagem
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = recive_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body, 'html'))
+
+    # Adicionando anexo (caso tenha fotos)
+    if fotos:
+        for foto in fotos:
+            attachment = open(foto, "rb")
+            part = MIMEBase('application', 'octet-stream')
+            part.set_payload(attachment.read())
+            encoders.encode_base64(part)
+            part.add_header('Content-Disposition', f'attachment; filename={foto}')
+            msg.attach(part)
+
+    # Enviar o e-mail
     try:
-        sg = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))  # Use a chave da API do SendGrid do .env
-        response = sg.send(message)
-        return {"message": "Orçamento enviado com sucesso!"}
+        with smtplib.SMTP(server_smtp, port) as server:
+            server.starttls()
+            server.login(sender_email, password)
+            server.sendmail(sender_email, recive_email, msg.as_string())
+            print("E-mail enviado com sucesso!")
     except Exception as e:
-        return {"error": str(e)}
+        print(f"Erro ao enviar e-mail: {e}")
