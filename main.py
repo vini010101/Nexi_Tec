@@ -25,7 +25,7 @@ def read_form(request: Request):
     return templates.TemplateResponse("orcamento.html", {"request": request})
 
 # Rota para processar o formulário e enviar o e-mail
-@app.post("/enviar_orcamento", response_class=JSONResponse)
+@app.post("/enviar_orcamento", response_class=HTMLResponse)
 async def enviar_orcamento(
     request: Request,
     nome: str = Form(...),
