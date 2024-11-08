@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Form, UploadFile, File
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
@@ -25,7 +25,7 @@ def read_form(request: Request):
     return templates.TemplateResponse("orcamento.html", {"request": request})
 
 # Rota para processar o formulário e enviar o e-mail
-@app.post("/enviar_orcamento", response_class=HTMLResponse)
+@app.post("/enviar_orcamento", response_class=JSONResponse)
 async def enviar_orcamento(
     request: Request,
     nome: str = Form(...),
@@ -35,7 +35,7 @@ async def enviar_orcamento(
     mensagem: str = Form(...),
     fotos: list[UploadFile] = File(None)
 ):
-    # Salva os arquivos temporariamente se ouver
+    # Salva os arquivos temporariamente se houver
     fotos_salvas = []
     if fotos:
         for foto in fotos:
@@ -50,6 +50,6 @@ async def enviar_orcamento(
         # Apaga os arquivos temporários após o envio
         for foto_path in fotos_salvas:
             os.remove(foto_path)
-        return HTMLResponse(content="<h1>Formulário enviado com sucesso!</h1>", status_code=200)
+        return JSONResponse(content={"message": "Formulário enviado com sucesso!"}, status_code=200)
     except Exception as e:
-        return HTMLResponse(content=f"<h1>Erro ao enviar o formulário: {e}</h1>", status_code=500)
+        return JSONResponse(content={"message": f"Erro ao enviar o formulário: {str(e)}"}, status_code=500)

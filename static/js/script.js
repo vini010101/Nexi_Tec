@@ -1,109 +1,68 @@
 
-let nome = document.querySelector("#nome")
-function exibirnome(){
-    console.log(nome.value)
-    if(nome.value == ""){
-        nome.style.border = "2px solid red"
-    }
-    else{
-        nome.style.border = "2px solid green"
-    }
+// Função para validar um campo específico
+function validateField(fieldId, successMessageId) {
+    const field = document.getElementById(fieldId);
+    const successMessage = document.getElementById(successMessageId);
+
+    field.addEventListener("input", function() {
+        if (field.value.trim() === "") {
+            field.style.borderColor = "red";
+            successMessage.style.display = "block";
+        } else {
+            field.style.borderColor = "green";
+            successMessage.style.display = "block";
+        }
+    });
 }
 
-nome.addEventListener("blur",exibirnome)
+// Chama a função validateField para cada campo
+validateField("nome", "success-nome");
+validateField("fone", "success-fone");
+validateField("email", "success-email");
+validateField("fone2", "success-fone2");
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona o input do arquivo e a área de mensagem de sucesso
+    const fileInput = document.getElementById('imagens');
+    const successMessage = document.getElementById('success-message');
 
-let idade = document.querySelector("#idade");
-
-idade.addEventListener("blur",function(){
-    // Converter o valor da idade para um numero usando parserINT
-    let idadeValor = parseInt(idade.value);
-    
-    if(idadeValor >=18){
-        alert("voce possui mais de 18 anos!")
-    
-    }   else    {
-        alert("infelizmente, voce nao é de maior!");
-    }   
+    // Adiciona um evento para detectar quando o arquivo é selecionado
+    fileInput.addEventListener('change', function() {
+        if (fileInput.files.length > 0) {
+            // Exibe a mensagem de sucesso
+            successMessage.style.display = 'block';
+            successMessage.textContent = 'Arquivo enviado com sucesso!';
+        }
+    });
 });
 
-let endereco = document.querySelector("#endereco");
+// Função para exibir a caixa de diálogo com a mensagem
+function exibirMensagem(mensagem) {
+    alert(mensagem);  // Exibe a mensagem como uma caixa de diálogo
+}
 
-function exibirendereco(){
-    console.log(endereco.value)
-    if(endereco.value == ""){
-    endereco.style.border = "2px solid red"
-    }
-    
-    else{
-    endereco.style.border = "2px solid green"
+// Função que será chamada quando o formulário for enviado
+function enviarFormulario(event) {
+    event.preventDefault();  // Impede o envio do formulário (não envia os dados)
+
+    // Obtém os valores dos campos
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+
+    // Verifica se os campos obrigatórios estão preenchidos
+    if (!nome || !email) {
+        exibirMensagem("Por favor, preencha todos os campos!");  // Se não preenchido
+    } else {
+        // Simula o envio do formulário e exibe a caixa de diálogo de sucesso
+        setTimeout(function() {
+            // Simula sucesso
+            exibirMensagem("Formulário enviado com sucesso!");
+
+            // Recarrega a página após a mensagem de sucesso
+            location.reload();  // Recarrega a página
+        }, 1000);  // Atraso de 1 segundo para simular o envio
     }
 }
-endereco.addEventListener("blur",exibirendereco)
 
-let email = document.querySelector("#email")
-
-function exibiremail(){
-    console.log(email.value)
-    if(email.value == ""){
-        email.style.border = "2px solid red"
-    }
-    
-    else{
-        email.style.border = "2px solid green"
-    }
-}
-email.addEventListener("blur",exibiremail)
-
-
-let fone = document.querySelector("#fone")
-
-function exibirfone(){
-    console.log(fone.value)
-    if (fone.value== ""){
-        fone.style.border = "2px solid red"
-    }
-    
-    else{
-        fone.style.border = "2px solid gree"
-    }
-}
-fone.addEventListener("blur",exibirfone)
-
-
-
-// Referências aos elementos do DOM
-const inputFile = document.getElementById('curriculo');
-const fileLabel = document.getElementById('file-label');
-const fileError = document.getElementById('file-error');
-
-// Função para formatar o nome do arquivo e validar o tipo e tamanho
-inputFile.addEventListener('change', function() {
-    const file = this.files[0]; // Obtém o arquivo selecionado
-    fileError.textContent = ''; // Limpa erros anteriores
-
-    if (file) {
-        const allowedExtensions = ['pdf', 'docx'];
-        const fileSizeLimit = 2 * 1024 * 1024; // Limite de 2MB para o arquivo
-        const fileExtension = file.name.split('.').pop().toLowerCase();
-
-        // Validação de extensão de arquivo
-        if (!allowedExtensions.includes(fileExtension)) {
-            fileError.textContent = 'Por favor, envie apenas arquivos PDF ou DOCX.';
-            this.value = ''; // Reseta o input
-            fileLabel.textContent = 'Escolha o arquivo';
-            return;
-        }
-
-        // Validação de tamanho de arquivo
-        if (file.size > fileSizeLimit) {
-            fileError.textContent = 'O arquivo deve ter no máximo 2MB.';
-            this.value = ''; // Reseta o input
-            fileLabel.textContent = 'Escolha o arquivo';
-            return;
-        }
-
-        // Se o arquivo for válido, atualiza o texto do label
-        fileLabel.textContent = file.name;
-    }
-});
+// Adiciona o evento de submit ao formulário para chamar a função de envio
+document.getElementById('formulario').addEventListener('submit', enviarFormulario);

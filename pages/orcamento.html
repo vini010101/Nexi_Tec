@@ -61,7 +61,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link text-dark font-weight-bold" aria-current="page" href="/">Início</a>
+                        <a class="nav-link text-dark font-weight-bold"  href="index.html">Início</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark font-weight-bold" href="orcamento.html">Formulário para orçamento</a>
@@ -74,10 +74,10 @@
     <main class="container bg-secondary-subtle">
         <h1 class="text-center my-5">Formulário de orçamento</h1>
         
-        <form action="/enviar_orcamento" method="post" enctype="multipart/form-data">
+        <form id="formulario" action="/enviar_orcamento" method="post" enctype="multipart/form-data">
             <!-- CAMPO DE TEXTO: NOME -->
-            <section class="row mb-2">
-                <div class="col-md-9">
+            <section class="col-md-3">
+                <div class="mb-3">
                     <label for="nome" class="mb-2">Nome</label>
                     <input type="text" name="nome" id="nome" class="form-control">
                 </div>
@@ -98,8 +98,8 @@
             
             
             <!-- CAMPO E-MAil PARA CONTATO -->
-            <section class="row mb-2">
-                <div class="col-md-10">
+            <section class="col-md-3">
+                <div class="mb-3">
                     <label for="email" class="mb-2">E-mail</label>
                     <input type="email" name="email" id="email" class="form-control" placeholder="email@email.com">
                 </div>
@@ -113,20 +113,23 @@
             </section>
 
 
-            <!--adicionei um campo para recebr os curriculos digitalmente-->
             <section class="row mb-2">
                 <div class="col-md-5">
-                    <label for="curriculo" class="mb-2">Anexe aqui imagens de referencias de como você deseja o seu site ou sistema</label>
+                    <label for="imagens" class="mb-2">Anexe aqui imagens de referências de como você deseja o seu site ou sistema</label>
                 </div>
-                    <!-- Div para o input do arquivo -->
-<div class="custom-file">
-    <!-- Label estilizada -->
-    <label class="custom-file-label" id="file-label" for="imagens">
-        Escolha o arquivo
-        <!-- Input escondido, o clique é feito na label -->
-        <input type="file" name="fotos" id="imagens" class="custom-file-input" accept=".jpg" hidden>
-    </label>
-</div>
+                <!-- Div para o input do arquivo -->
+                <div class="custom-file">
+                    <!-- Label estilizada -->
+                    <label class="custom-file-label" id="file-label" for="imagens">
+                        Escolha o arquivo
+                        <!-- Input escondido, o clique é feito na label -->
+                        <input type="file" name="imagens" id="imagens" class="custom-file-input" accept=".jpg" hidden>
+                    </label>
+                </div>
+                <!-- Área para exibir mensagem de sucesso -->
+                <div id="success-message" style="display: none; color: green; margin-top: 10px;">
+                    Arquivo enviado com sucesso!
+                </div>
                     <!-- Div para mostrar a mensagem de erro, se houver -->
                     <div id="file-error" class="text-danger mt-2"></div>
                 </div>

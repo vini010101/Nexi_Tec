@@ -53,6 +53,6 @@ def enviar_email(nome, fone, fone2, email, mensagem, fotos=None):
             server.starttls()
             server.login(sender_email, password)
             server.sendmail(sender_email, recive_email, msg.as_string())
-            print("E-mail enviado com sucesso!")
+            print("Formulario enviado com sucesso!")
     except Exception as e:
-        print(f"Erro ao enviar e-mail: {e}")
+        print(f"Erro ao enviar o Formulario: {e}")
