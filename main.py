@@ -50,6 +50,6 @@ async def enviar_orcamento(
         # Apaga os arquivos temporários após o envio
         for foto_path in fotos_salvas:
             os.remove(foto_path)
-        return JSONResponse(content={"message": "Formulário enviado com sucesso!"}, status_code=200)
+        return HTMLResponse(content={"message": "Formulário enviado com sucesso!"}, status_code=200)
     except Exception as e:
-        return JSONResponse(content={"message": f"Erro ao enviar o formulário: {str(e)}"}, status_code=500)
+        return HTMLResponse(content={"message": f"Erro ao enviar o formulário: {str(e)}"}, status_code=500)
