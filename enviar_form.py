@@ -40,12 +40,20 @@ def enviar_email(nome, fone, fone2, email, mensagem, fotos=None):
     # Adicionando anexo (caso tenha fotos)
     if fotos:
         for foto in fotos:
-            attachment = open(foto, "rb")
-            part = MIMEBase('application', 'octet-stream')
-            part.set_payload(attachment.read())
-            encoders.encode_base64(part)
-            part.add_header('Content-Disposition', f'attachment; filename={foto}')
-            msg.attach(part)
+            # Verifica se o arquivo é uma imagem válida
+            if foto.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+                try:
+                    with open(foto, "rb") as attachment:
+                        part = MIMEBase('application', 'octet-stream')
+                        part.set_payload(attachment.read())
+                        encoders.encode_base64(part)
+                        part.add_header('Content-Disposition', f'attachment; filename={os.path.basename(foto)}')
+                        msg.attach(part)
+                except Exception as e:
+                    print(f"Erro ao anexar a foto {foto}: {e}")
+            else:
+                print(f"O arquivo {foto} não é uma imagem válida e não será anexado.")
+
 
     # Enviar o e-mail
     try:

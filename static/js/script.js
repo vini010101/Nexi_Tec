@@ -1,68 +1,78 @@
+document.getElementById("formulario").addEventListener("submit", async function(event) {
+    event.preventDefault(); // Impede o envio imediato do formulário
+    
+    const formData = new FormData(this);
+    
+    try {
+        const response = await fetch(this.action, {
+            method: "POST",
+            body: formData
+        });
+        
+        if (response.ok) {
+            alert("Formulário enviado com sucesso!");
+            window.location.href = "/"; // Redireciona para a página inicial
+        } else {
+            alert("Erro ao enviar o formulário. Tente novamente.");
+        }
+    } catch (error) {
+        alert("Ocorreu um erro ao enviar o formulário.");
+        console.error("Erro:", error);
+    }
+});
 
-// Função para validar um campo específico
-function validateField(fieldId, successMessageId) {
-    const field = document.getElementById(fieldId);
-    const successMessage = document.getElementById(successMessageId);
 
-    field.addEventListener("input", function() {
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("formulario");
+    const successMessage = document.getElementById("success-message");
+
+    // Função para mostrar a mensagem de erro ou sucesso
+    function showSuccessMessage() {
+        successMessage.style.display = "block";  // Exibe a mensagem de sucesso
+        fileError.textContent = "";  // Limpa qualquer mensagem de erro
+    }
+
+    function showErrorMessage(message) {
+        successMessage.style.display = "none";  // Esconde a mensagem de sucesso
+        fileError.textContent = message;  // Exibe a mensagem de erro
+    }
+
+   
+
+    // Adiciona verificação de preenchimento para os outros campos como no exemplo anterior
+    form.querySelectorAll("input[required], textarea[required]").forEach(function (input) {
+        input.addEventListener("blur", function () {
+            validateField(input);
+        });
+    });
+
+    form.querySelectorAll("input, textarea").forEach(function (input) {
+        input.addEventListener("input", function () {
+            validateField(input);
+        });
+    });
+
+    function validateField(field) {
         if (field.value.trim() === "") {
             field.style.borderColor = "red";
-            successMessage.style.display = "block";
         } else {
             field.style.borderColor = "green";
-            successMessage.style.display = "";
         }
-    });
-}
+    }
 
-// Chama a função validateField para cada campo
-validateField("nome", "success-nome");
-validateField("fone", "success-fone");
-validateField("email", "success-email");
-validateField("fone2", "success-fone2");
+    form.addEventListener("submit", function (event) {
+        let allValid = true;
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Seleciona o input do arquivo e a área de mensagem de sucesso
-    const fileInput = document.getElementById('imagens');
-    const successMessage = document.getElementById('success-message');
+        form.querySelectorAll("input[required], textarea[required]").forEach(function (input) {
+            if (input.value.trim() === "") {
+                input.style.borderColor = "red";
+                allValid = false;
+            }
+        });
 
-    // Adiciona um evento para detectar quando o arquivo é selecionado
-    fileInput.addEventListener('change', function() {
-        if (fileInput.files.length > 0) {
-            // Exibe a mensagem de sucesso
-            successMessage.style.display = 'block';
-            successMessage.textContent = 'Arquivo enviado com sucesso!';
+        if (!allValid) {
+            event.preventDefault();
+            alert("Por favor, preencha todos os campos obrigatórios.");
         }
     });
 });
-
-// Função para exibir a caixa de diálogo com a mensagem
-function exibirMensagem(mensagem) {
-    alert(mensagem);  // Exibe a mensagem como uma caixa de diálogo
-}
-
-// Função que será chamada quando o formulário for enviado
-function enviarFormulario(event) {
-    event.preventDefault();  // Impede o envio do formulário (não envia os dados)
-
-    // Obtém os valores dos campos
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-
-    // Verifica se os campos obrigatórios estão preenchidos
-    if (!nome || !email) {
-        exibirMensagem("Por favor, preencha todos os campos!");  // Se não preenchido
-    } else {
-        // Simula o envio do formulário e exibe a caixa de diálogo de sucesso
-        setTimeout(function() {
-            // Simula sucesso
-            exibirMensagem("Formulário enviado com sucesso!");
-
-            // Recarrega a página após a mensagem de sucesso
-            location.reload();  // Recarrega a página
-        }, 1000);  // Atraso de 1 segundo para simular o envio
-    }
-}
-
-// Adiciona o evento de submit ao formulário para chamar a função de envio
-document.getElementById('formulario').addEventListener('submit', enviarFormulario);
