@@ -10,7 +10,7 @@ function validateField(fieldId, successMessageId) {
             successMessage.style.display = "block";
         } else {
             field.style.borderColor = "green";
-            successMessage.style.display = "block";
+            successMessage.style.display = "";
         }
     });
 }
